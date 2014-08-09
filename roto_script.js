@@ -37,17 +37,7 @@ for (var i=0;i<12;i++){
 	};
 
 
-
-//makes arrays of specified length and fills them with zeros
-//function zeroArray(length, type) {
-//    var arr = new type();
-//    for (var i = 0; i < length; i++) {
-//        arr[i] = 0;
-//    }
-//    return arr;
-//}
-
-//makes an array of arrays
+//makes an array of arrays for the sorting part
 stats = [];
 
 for(var i=0;i<14;i++){
@@ -94,6 +84,17 @@ for (var i=0;i<12;i++){
 	rotoStats[i] = allStats[i].findRoto();
 	rotoSum[i] = rotoStats[i][1];
 	};
+
+
+//create button to see rotoscores (yes, I'm aware there's a more sophisticated way to do this than adding all of the button details separately)
+var button = document.createElement('button');
+button.innerHTML = "See Roto Scores";
+button.type = "button";
+button.id = "seeRotoButton";
+
+var element = document.getElementsByClassName("games-fullcol games-fullcol-extramargin")[0];
+var child = document.getElementById("statsTable");
+element.insertBefore(button,child);
 
 document.getElementById('seeRotoButton').addEventListener('click', seeRoto);
 

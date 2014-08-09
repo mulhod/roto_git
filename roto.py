@@ -30,12 +30,6 @@ def main():
 	read_html = read_file.readlines()
 	read_html[-1] = "<script src='" + filelocation + \
 		"roto_script.js'></script>\n</html>"
-	read_html[550] = "</table><div class='button'><" + \
-		"button type='button' id='seeRotoButton'>See " + \
-		"Roto Scores</button></div><table width='1094" + \
-		"' id='statsTable' border='0' cellpadding='2'" + \
-		" cellspacing='1' class='tableBody' bgcolor='" + \
-		"#ffffff' >\n"
 	read_file.close()
 	
 	with open(str(filelocation + 'season.html'), 'w') as \
