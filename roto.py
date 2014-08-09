@@ -36,10 +36,19 @@ def main():
 		write_file:
 		write_file.write("".join(read_html))
 	
-	# week_file = urllib.urlretrieve('http://games.espn.go' +
-	#	'.com/flb/scoreboard?leagueId=3694&seasonId=2014',
-	#	'/Users/melissalopez/Documents/programming/roto/' +
-	#	'week.html')
+	week_file = urllib.urlretrieve('http://games.espn.go' +
+		'.com/flb/scoreboard?leagueId=3694&seasonId=2014',
+		filelocation + 'week.html')
+	
+	read_file2 = open(str(filelocation + 'week.html'), 'r')
+	read_html2 = read_file2.readlines()
+	read_html2[-1] = "<script src='" + filelocation + \
+		"roto_week_script.js'></script>\n</html>"
+	read_file2.close()
+	
+	with open(str(filelocation + 'week.html'), 'w') as \
+		write_file2:
+		write_file2.write("".join(read_html2))
 
 
 if __name__ == '__main__':
