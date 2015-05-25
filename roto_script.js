@@ -1,3 +1,7 @@
+//TODO: make this jQuery so it looks less stupid
+
+
+
 //creates objects and fills in data for each person
 function Stats(i) {
     this.name = String(document.getElementsByClassName('sortableTeamName')[i].childNodes[0].title);
@@ -13,20 +17,23 @@ function Stats(i) {
 	this.whip = Number(document.getElementsByClassName('sortableStat41')[i].innerHTML);
 	this.kbb = Number(document.getElementsByClassName('sortableStat82')[i].innerHTML);
 	this.svhd = Number(document.getElementsByClassName('sortableStat83')[i].innerHTML);
+	this.fpct = Number(document.getElementsByClassName('sortableStat71')[i].innerHTML);
+	this.po = Number(document.getElementsByClassName('sortableStat68')[i].innerHTML);
 	this.id = String(document.getElementsByClassName('sortableRank')[i].id);
 	//this matches each person's key values to the sorted array and creates an array with the roto values
-	this.findRoto = function () { var teamstats = [this.name,this.r,this.rbi,this.rc,this.sb,this.obp,this.slg,this.k,this.qs,this.era,this.whip,this.kbb,this.svhd,this.id];
-						for (var i=1;i<13;i++){
- 							for(var x=11;x>=0;x--){
+	this.findRoto = function () { var teamstats = [this.name,this.r,this.rbi,this.rc,this.sb,this.obp,this.slg,this.po,this.fpct,this.k,this.qs,this.era,this.whip,this.kbb,this.svhd,this.id];
+	var teamrotostats = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+						for (var i=1;i<15;i++){
+ 							for(var x=0;x<12;x++){
 								if (teamstats[i] == stats[i][x]) {
-									teamstats[i] = x+1;
+									teamrotostats[i] = x+1;
 									}}}
 						var rotoTotal = 0;
-						for (var i=1;i<13;i++){
-							if (Number.isInteger(teamstats[i])) {
-								rotoTotal += teamstats[i];
+						for (var i=1;i<15;i++){
+							if (Number.isInteger(teamrotostats[i])) {
+								rotoTotal += teamrotostats[i];
 								}}
-						return [teamstats,rotoTotal];
+						return [teamrotostats,rotoTotal];
 						}
 };
 
@@ -40,14 +47,14 @@ for (var i=0;i<12;i++){
 //makes an array of arrays for the sorting part
 stats = [];
 
-for(var i=0;i<14;i++){
+for(var i=0;i<16;i++){
 	stats[i] = [];
 	}
 
 
 //fills in the arrays with the data from the page. each subarray refers to a stat, not a team (e.g., all rbi totals are listed in one array)
 
-for(i=0;i<12;i++){
+for(var i=0;i<12;i++){
 	stats[0][i] = document.getElementsByClassName('sortableTeamName')[i].childNodes[0].title;
 	stats[1][i] = Number(document.getElementsByClassName('sortableStat20')[i].innerHTML);
 	stats[2][i] = Number(document.getElementsByClassName('sortableStat21')[i].innerHTML);
@@ -55,19 +62,21 @@ for(i=0;i<12;i++){
 	stats[4][i] = Number(document.getElementsByClassName('sortableStat23')[i].innerHTML);
 	stats[5][i] = Number(document.getElementsByClassName('sortableStat17')[i].innerHTML);
 	stats[6][i] = Number(document.getElementsByClassName('sortableStat9')[i].innerHTML);
-	stats[7][i] = Number(document.getElementsByClassName('sortableStat48')[i].innerHTML);
-	stats[8][i] = Number(document.getElementsByClassName('sortableStat63')[i].innerHTML);
-	stats[9][i] = Number(document.getElementsByClassName('sortableStat47')[i].innerHTML);
-	stats[10][i] = Number(document.getElementsByClassName('sortableStat41')[i].innerHTML);
-	stats[11][i] = Number(document.getElementsByClassName('sortableStat82')[i].innerHTML);
-	stats[12][i] = Number(document.getElementsByClassName('sortableStat83')[i].innerHTML);
-	stats[13][i] = document.getElementsByClassName('sortableRank')[i].id;
+	stats[7][i] = Number(document.getElementsByClassName('sortableStat68')[i].innerHTML);
+	stats[8][i] = Number(document.getElementsByClassName('sortableStat71')[i].innerHTML);
+	stats[9][i] = Number(document.getElementsByClassName('sortableStat48')[i].innerHTML);
+	stats[10][i] = Number(document.getElementsByClassName('sortableStat63')[i].innerHTML);
+	stats[11][i] = Number(document.getElementsByClassName('sortableStat47')[i].innerHTML);
+	stats[12][i] = Number(document.getElementsByClassName('sortableStat41')[i].innerHTML);
+	stats[13][i] = Number(document.getElementsByClassName('sortableStat82')[i].innerHTML);
+	stats[14][i] = Number(document.getElementsByClassName('sortableStat83')[i].innerHTML);
+	stats[15][i] = document.getElementsByClassName('sortableRank')[i].id;
 	}
 
 
 //sorts the subarrays, making sure that era and whip are in reverse order because lower is better
-for(var i=1;i<13;i++){
-	if (i == 9 || i == 10){
+for(var i=1;i<15;i++){
+	if (i == 11 || i == 12){
 		stats[i].sort(function(a, b){return b-a});
 		}
 	else {
@@ -84,7 +93,6 @@ for (var i=0;i<12;i++){
 	rotoStats[i] = allStats[i].findRoto();
 	rotoSum[i] = rotoStats[i][1];
 	};
-
 
 //create button to see rotoscores (yes, I'm aware there's a more sophisticated way to do this than adding all of the button details separately)
 var button = document.createElement('button');
@@ -108,12 +116,14 @@ for(i=0;i<12;i++){
 	document.getElementsByClassName('sortableStat23')[i].innerHTML = rotoStats[i][0][4];
 	document.getElementsByClassName('sortableStat17')[i].innerHTML = rotoStats[i][0][5];
 	document.getElementsByClassName('sortableStat9')[i].innerHTML = rotoStats[i][0][6];
-	document.getElementsByClassName('sortableStat48')[i].innerHTML = rotoStats[i][0][7];
-	document.getElementsByClassName('sortableStat63')[i].innerHTML = rotoStats[i][0][8];
-	document.getElementsByClassName('sortableStat47')[i].innerHTML = rotoStats[i][0][9];
-	document.getElementsByClassName('sortableStat41')[i].innerHTML = rotoStats[i][0][10];
-	document.getElementsByClassName('sortableStat82')[i].innerHTML = rotoStats[i][0][11];
-	document.getElementsByClassName('sortableStat83')[i].innerHTML = rotoStats[i][0][12];
+	document.getElementsByClassName('sortableStat68')[i].innerHTML = rotoStats[i][0][7];
+	document.getElementsByClassName('sortableStat71')[i].innerHTML = rotoStats[i][0][8];
+	document.getElementsByClassName('sortableStat48')[i].innerHTML = rotoStats[i][0][9];
+	document.getElementsByClassName('sortableStat63')[i].innerHTML = rotoStats[i][0][10];
+	document.getElementsByClassName('sortableStat47')[i].innerHTML = rotoStats[i][0][11];
+	document.getElementsByClassName('sortableStat41')[i].innerHTML = rotoStats[i][0][12];
+	document.getElementsByClassName('sortableStat82')[i].innerHTML = rotoStats[i][0][13];
+	document.getElementsByClassName('sortableStat83')[i].innerHTML = rotoStats[i][0][14];
 	document.getElementsByClassName('sortableRank')[i].innerHTML = rotoStats[i][1];
 	}
 	}

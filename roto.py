@@ -23,12 +23,12 @@ def main():
 	# reads ESPN Standings page from url and saves it as a
 	# file, then adds the JavaScript path to the end of it
 	season_file = urllib.urlretrieve('http://games.espn.' +
-		'go.com/flb/standings?leagueId=3694&seasonId=2014',
+		'go.com/flb/standings?leagueId=3694&seasonId=2015',
 		str(filelocation + 'season.html'))
 	
 	read_file = open(str(filelocation + 'season.html'), 'r')
 	read_html = read_file.readlines()
-	read_html[-1] = "<script src='" + filelocation + \
+	read_html[-1] = "<script src='" + \
 		"roto_script.js'></script>\n</html>"
 	read_file.close()
 	
@@ -37,7 +37,7 @@ def main():
 		write_file.write("".join(read_html))
 	
 	week_file = urllib.urlretrieve('http://games.espn.go' +
-		'.com/flb/scoreboard?leagueId=3694&seasonId=2014',
+		'.com/flb/scoreboard?leagueId=3694&seasonId=2015',
 		filelocation + 'week.html')
 	
 	read_file2 = open(str(filelocation + 'week.html'), 'r')
